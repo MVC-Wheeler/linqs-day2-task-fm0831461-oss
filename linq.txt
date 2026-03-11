@@ -1,0 +1,188 @@
+using linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace linq
+{
+
+    public class Student
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string Department { get; set; }
+        public double GPA { get; set; }
+    }
+
+public class Course
+    { 
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Credits { get; set; }
+    }
+  
+public class Enrollment
+    {
+        public int StudentId { get; set; }
+        public int CourseId { get; set; }
+}
+
+
+
+
+internal class Program
+    {
+        static void Main(string[] args)
+        {
+            var students = new List<Student>
+    {
+        new Student { Id = 1, Name = "Ahmed Ali", Age = 21, Department = "CS", GPA = 3.6 },
+        new Student { Id = 2, Name = "Sara Mohamed", Age = 20, Department = "IT", GPA = 3.2 },
+        new Student { Id = 3, Name = "Omar Hassan", Age = 22, Department = "CS", GPA = 2.8 },
+        new Student { Id = 4, Name = "Mona Adel", Age = 19, Department = "IS", GPA = 3.9 },
+        new Student { Id = 5, Name = "Youssef Kamal", Age = 23, Department = "CS", GPA = 2.4 },
+        new Student { Id = 6, Name = "Aya Mostafa", Age = 21, Department = "IT", GPA = 3.5 },
+        new Student { Id = 7, Name = "Hassan Mahmoud", Age = 24, Department = "IS", GPA = 1.9 },
+        new Student { Id = 8, Name = "Nada Fathy", Age = 20, Department = "CS", GPA = 3.1 },
+        new Student { Id = 9, Name = "Ali Samir", Age = 18, Department = "IT", GPA = 2.6 },
+        new Student { Id = 10, Name = "Reem Tarek", Age = 22, Department = "IS", GPA = 3.7 },
+        new Student { Id = 11, Name = "Amr Nabil", Age = 21, Department = "CS", GPA = 4.0 },
+        new Student { Id = 12, Name = "Laila Ashraf", Age = 19, Department = "IT", GPA = 2.2 }
+    };
+
+                var courses = new List<Course>
+     {
+         new Course { Id = 1, Title = "C# Fundamentals", Credits = 3 },
+         new Course { Id = 2, Title = "OOP", Credits = 4 },
+         new Course { Id = 3, Title = "Databases", Credits = 3 },
+         new Course { Id = 4, Title = "ASP.NET MVC", Credits = 4 },
+         new Course { Id = 5, Title = "LINQ Deep Dive", Credits = 2 }
+     };
+
+                var enrollments = new List<Enrollment>
+    {
+        new Enrollment { StudentId = 1, CourseId = 1 },
+        new Enrollment { StudentId = 1, CourseId = 2 },
+
+        new Enrollment { StudentId = 2, CourseId = 1 },
+        new Enrollment { StudentId = 2, CourseId = 3 },
+
+        new Enrollment { StudentId = 3, CourseId = 2 },
+
+        new Enrollment { StudentId = 4, CourseId = 4 },
+        new Enrollment { StudentId = 4, CourseId = 5 },
+
+        new Enrollment { StudentId = 6, CourseId = 3 },
+        new Enrollment { StudentId = 6, CourseId = 4 },
+
+        new Enrollment { StudentId = 8, CourseId = 1 },
+
+        new Enrollment { StudentId = 10, CourseId = 2 },
+        new Enrollment { StudentId = 10, CourseId = 3 },
+
+        new Enrollment { StudentId = 11, CourseId = 5 }
+    };
+     var s = students.Select(e=> e.Name).ToList();
+                foreach (var student in s)
+                {
+                    Console.WriteLine(student);
+                }
+
+            Console.WriteLine("-------------------------------------------");
+                var res = students.Select(e=> new {name =e.Name, e,gpa =e.GPA}).ToList();
+            foreach(var student in res)
+            {
+                Console.WriteLine(student);
+            }
+
+            Console.WriteLine("-------------------------------------------");
+            var f = students.Any(e => e.GPA >= 3.8);           
+                    Console.WriteLine(f);
+
+            Console.WriteLine("-------------------------------------------");
+            var check = students.All(e => e.Age >= 18);
+            Console.WriteLine(check);
+            Console.WriteLine("-------------------------------------------");
+            var age = students.Where(e => e.Age > 20).ToList();
+           foreach (var student in age)
+            {
+                Console.WriteLine(student.Name);
+            }
+            Console.WriteLine("-------------------------------------------");
+            var cs = students.Where(e => e.Department == "CS");
+           foreach (var student in cs)
+            {
+                Console.WriteLine(student.Name);
+            }
+            Console.WriteLine("-------------------------------------------");
+            var gpa=students.OrderBy(e => e.GPA).ToList();
+            foreach (var student in gpa)
+            {
+                Console.WriteLine(student.Name);
+            }
+            Console.WriteLine("-------------------------------------------");
+            //var gpa1 = students.OrderByDescending(e => e.GPA).OrderBy(e=> e.Name).ToList();
+            var gpa1 = students.OrderByDescending(e => e.GPA).ThenBy(e => e.Name);
+            foreach (var item in gpa)
+            {
+                Console.WriteLine(item.Name+" "+item.GPA); 
+            }
+            Console.WriteLine("-------------------------------------------");
+            var top = students.OrderBy(e=>e.GPA).Take(5).ToList();
+           foreach(var student in top)
+            {
+                Console.WriteLine(student.Name +" "+ student.GPA);
+            }
+            Console.WriteLine("-------------------------------------------");
+            var check1 = students.Where(e => e.GPA >= 2.0);
+            foreach (var item in check1)
+            {
+                Console.WriteLine(item.Name + " " + item.GPA);
+            }
+            Console.WriteLine("-------------------------------------------");
+            var all = students.All(e => e.GPA > 2.0);      
+                Console.WriteLine(all);
+            Console.WriteLine("-------------------------------------------");
+            var count = students.Count();
+            Console.WriteLine(count);
+            Console.WriteLine("-------------------------------------------");
+            var word = students.Where(e => e.Name.Length > 5).ToList();
+            foreach (var item in word)
+            {
+                Console.WriteLine(item.Name);
+            }
+            Console.WriteLine("-------------------------------------------");
+            var count1 = students.Count();
+            Console.WriteLine(count1);
+            Console.WriteLine("-------------------------------------------");
+            var find = students.Max(e=> e.GPA);
+            Console.WriteLine(find);
+            Console.WriteLine("-------------------------------------------");
+            var find1 = students.Min(e => e.GPA);
+            Console.WriteLine(find1);
+            Console.WriteLine("-------------------------------------------");
+            var avr = students.Average(e => e.GPA);
+            Console.WriteLine(avr);
+            Console.WriteLine("-------------------------------------------");
+            var avr1 = students.Where(e=> e.Department=="CS").Average(e => e.GPA);
+            Console.WriteLine(avr1);
+            Console.WriteLine("-------------------------------------------");
+            var sum = students.Sum(e => e.GPA);
+            Console.WriteLine(sum);
+            Console.WriteLine("-------------------------------------------");
+            var count2 = students.Where(e => e.GPA > avr).Count();
+            Console.WriteLine(count2);
+            Console.WriteLine("-------------------------------------------");
+            var avr2 = students.OrderByDescending(e => e.GPA).Take(3).Average(e => e.GPA);
+            Console.WriteLine(avr2);
+            Console.WriteLine("-------------------------------------------");
+            var lowest=students.SkipLast(2).Average(e=> e.GPA);
+            Console.WriteLine(lowest);
+            Console.WriteLine("-------------------------------------------");
+            var highest = students.Max(e => e.GPA);
+            Console.WriteLine(highest);
+            Console.WriteLine("-------------------------------------------");
+            var total = students.All(e=> e.Name.Count() > 20);
+            Console.WriteLine(total);
+        }
+    }
+    }
